@@ -1,0 +1,93 @@
+@page "/produtos/novo"
+
+@using Microsoft.EntityFrameworkCore
+@using CursoDesenvolvedor_io.Components.Produto
+
+@inject IDbContextFactory<CursoDesenvolvedor_io.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Novo Produto</PageTitle>
+
+<h1>Novo Produto</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Produto" OnValidSubmit="AddProduto" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label for="nome" class="form-label">Nome:</label> 
+                <InputText id="nome" @bind-Value="Produto.Nome" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => Produto.Nome" class="text-danger" /> 
+            </div>       
+            
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descricao:</label> 
+                <InputText id="descricao" @bind-Value="Produto.Descricao" class="form-control" /> 
+                <ValidationMessage For="() => Produto.Descricao" class="text-danger" /> 
+            </div>        
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label for="categoria" class="form-label">Categoria:
+                    <InputSelect id="categoria" @bind-Value="Produto.Categoria" class="form-control">
+                        <option value="">Selecione uma categoria...</option>
+                        @foreach(var categoria in Categorias)
+                        {
+                            <option value="@categoria">@categoria</option>
+                        }
+                    </InputSelect>
+                </label> 
+            </div>        
+
+            <div class="mb-3">
+                <label for="preco" class="form-label">Preco:</label> 
+                <InputText id="preco" @bind-Value="Produto.Preco" class="form-control" /> 
+                <ValidationMessage For="() => Produto.Preco" class="text-danger" /> 
+            </div>      
+            
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label for="disponivel" class="form-label">Disponível?</label> 
+                <InputCheckbox id="disponivel" @bind-Value="Produto.Disponivel" class="form-check-input" aria-required="true"/> 
+                <ValidationMessage For="() => Produto.Disponivel" class="text-danger" /> 
+            </div>        
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label for="datavalidade" class="form-label">Data de validade:</label> 
+                <InputDate id="datavalidade" @bind-Value="Produto.Datavalidade" class="form-control" aria-required="true"/> 
+                <ValidationMessage For="() => Produto.Datavalidade" class="text-danger" /> 
+            </div>   
+            
+            <button type="submit" class="btn btn-primary">Criar</button>
+            <a class="btn btn-warning" href="/produtos">Voltar</a>
+
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Produto Produto { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Produto ??= new()
+            {
+                Datavalidade = DateTime.UtcNow
+            };
+    }
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddProduto()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Produto.Add(Produto);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/produtos");
+    }
+}

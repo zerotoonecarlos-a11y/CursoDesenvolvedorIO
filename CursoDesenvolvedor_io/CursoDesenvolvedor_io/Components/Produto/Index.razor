@@ -1,0 +1,42 @@
+@page "/produtos"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
+@using CursoDesenvolvedor_io.Components.Produto
+@using CursoDesenvolvedor_io.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<CursoDesenvolvedor_io.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="produtos/novo">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Produto">
+    <PropertyColumn Property="produto => produto.Nome" />
+    <PropertyColumn Property="produto => produto.Descricao" />
+    <PropertyColumn Property="produto => produto.Categoria" />
+    <PropertyColumn Property="produto => produto.Preco" />
+    <PropertyColumn Property="produto => produto.Disponivel" />
+    <PropertyColumn Property="produto => produto.Datavalidade" />
+
+    <TemplateColumn Context="produto">
+        <a href="@($"produtos/edit?id={produto.ID}")">Edit</a> |
+        <a href="@($"produtos/details?id={produto.ID}")">Details</a> |
+        <a href="@($"produtos/delete?id={produto.ID}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private ApplicationDbContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

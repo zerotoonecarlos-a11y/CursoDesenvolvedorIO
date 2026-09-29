@@ -1,0 +1,56 @@
+@page "/produtos/details"
+@using Microsoft.EntityFrameworkCore
+@using CursoDesenvolvedor_io.Components.Produto
+@inject IDbContextFactory<CursoDesenvolvedor_io.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Produto</h2>
+    <hr />
+    @if (produto is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Nome</dt>
+            <dd class="col-sm-10">@produto.Nome</dd>
+            <dt class="col-sm-2">Descricao</dt>
+            <dd class="col-sm-10">@produto.Descricao</dd>
+            <dt class="col-sm-2">Categoria</dt>
+            <dd class="col-sm-10">@produto.Categoria</dd>
+            <dt class="col-sm-2">Preco</dt>
+            <dd class="col-sm-10">@produto.Preco</dd>
+            <dt class="col-sm-2">Disponivel</dt>
+            <dd class="col-sm-10">@produto.Disponivel</dd>
+            <dt class="col-sm-2">Datavalidade</dt>
+            <dd class="col-sm-10">@produto.Datavalidade</dd>
+        </dl>
+        <div>
+            <a href="@($"/produtos/edit?id={produto.ID}")">Edit</a> |
+            <a href="@($"/produtos")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Produto? produto;
+
+    [SupplyParameterFromQuery]
+    private int ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        produto = await context.Produto.FirstOrDefaultAsync(m => m.ID == ID);
+
+        if (produto is null)
+        {
+            NavigationManager.NotFound();
+        }
+    }
+}
