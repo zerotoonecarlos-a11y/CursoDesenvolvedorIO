@@ -1,8 +1,9 @@
 @page "/produtos"
-@using Microsoft.AspNetCore.Components.QuickGrid
-@using Microsoft.EntityFrameworkCore
+@using System.Globalization
 @using CursoDesenvolvedor_io.Components.Produto
 @using CursoDesenvolvedor_io.Data
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
 @implements IAsyncDisposable
 @inject IDbContextFactory<CursoDesenvolvedor_io.Data.ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -17,16 +18,15 @@
 
 <QuickGrid Class="table" Items="context.Produto">
     <PropertyColumn Align="Align.Center" Property="produto => produto.Nome" />
-    <PropertyColumn Align="Align.Center" Property="produto => produto.Descricao" />
     <PropertyColumn Align="Align.Center" Property="produto => produto.Categoria" />
-    <PropertyColumn Align="Align.Center" Property="produto => produto.Preco" />
+    <PropertyColumn Align="Align.Center" Property="p => p.Preco" Title="Preço" Format="C" />
     <PropertyColumn Align="Align.Center" Property="produto => produto.Disponivel" />
-    <PropertyColumn Align="Align.Center" Property="produto => produto.Datavalidade" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Datavalidade" Title="Data de Validade" Format="dd-MM-yyyy" />
 
     <TemplateColumn Align="Align.Center" Context="produto">
-        <a href="@($"produtos/editar/{produto.ID}")">Edit</a> |
-        <a href="@($"produtos/detalhes/{produto.ID}")">Details</a> |
-        <a href="@($"produtos/deletar/{produto.ID}")">Delete</a>
+        <a class="btn btn-primary" href="@($"produtos/editar/{produto.ID}")"><span class="fa fa-pencil-alt"></span></a> |
+        <a class="btn btn-info" href="@($"produtos/detalhes/{produto.ID}")"><span class="fa fa-search"></span></a> |
+        <a class="btn btn-danger" href="@($"produtos/deletar/{produto.ID}")"><span class="fa fa-trash"></span></a>
     </TemplateColumn>
 </QuickGrid>
 
