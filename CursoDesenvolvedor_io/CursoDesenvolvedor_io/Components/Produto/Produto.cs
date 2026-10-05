@@ -1,6 +1,7 @@
-﻿using Humanizer;
+﻿using CursoDesenvolvedor_io.Enums;
+using Humanizer;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-
 
 namespace CursoDesenvolvedor_io.Components.Produto
 {
@@ -20,7 +21,7 @@ namespace CursoDesenvolvedor_io.Components.Produto
 
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "A Categoria do produto é obrigatoriio")]
-        public string Categoria { get; set; }
+        public CategoriaProduto Categoria { get; set; }
         
         [Display(Name = "Preço")]
         [Range(0.01, double.MaxValue, ErrorMessage = "O preço tem que ser maior que zero")]
@@ -32,6 +33,9 @@ namespace CursoDesenvolvedor_io.Components.Produto
 
         [Display(Name = "Data de Validade")]
         [Required(ErrorMessage = "A data da validade e obrigatoria")]
-        public DateTime Datavalidade { get; set; } 
+        public DateTime Datavalidade { get; set; }
+
+
+        
     }
 }

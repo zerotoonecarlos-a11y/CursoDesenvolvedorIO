@@ -2,6 +2,7 @@
 
 @using Microsoft.EntityFrameworkCore
 @using CursoDesenvolvedor_io.Components.Produto
+@using CursoDesenvolvedor_io.Enums
 
 @inject IDbContextFactory<CursoDesenvolvedor_io.Data.ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -35,7 +36,7 @@
                 <label for="categoria" class="form-label">Categoria:
                     <InputSelect id="categoria" @bind-Value="Produto.Categoria" class="form-control">
                         <option value="">Selecione uma categoria...</option>
-                        @foreach(var categoria in Categorias)
+                        @foreach (var categoria in Enum.GetValues<CategoriaProduto>())
                         {
                             <option value="@categoria">@categoria</option>
                         }

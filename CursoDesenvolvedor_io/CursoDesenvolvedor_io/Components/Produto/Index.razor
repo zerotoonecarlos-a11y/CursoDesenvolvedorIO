@@ -16,17 +16,17 @@
 </p>
 
 <QuickGrid Class="table" Items="context.Produto">
-    <PropertyColumn Property="produto => produto.Nome" />
-    <PropertyColumn Property="produto => produto.Descricao" />
-    <PropertyColumn Property="produto => produto.Categoria" />
-    <PropertyColumn Property="produto => produto.Preco" />
-    <PropertyColumn Property="produto => produto.Disponivel" />
-    <PropertyColumn Property="produto => produto.Datavalidade" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Nome" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Descricao" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Categoria" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Preco" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Disponivel" />
+    <PropertyColumn Align="Align.Center" Property="produto => produto.Datavalidade" />
 
-    <TemplateColumn Context="produto">
-        <a href="@($"produtos/edit?id={produto.ID}")">Edit</a> |
-        <a href="@($"produtos/details?id={produto.ID}")">Details</a> |
-        <a href="@($"produtos/delete?id={produto.ID}")">Delete</a>
+    <TemplateColumn Align="Align.Center" Context="produto">
+        <a href="@($"produtos/editar/{produto.ID}")">Edit</a> |
+        <a href="@($"produtos/detalhes/{produto.ID}")">Details</a> |
+        <a href="@($"produtos/deletar/{produto.ID}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>
 

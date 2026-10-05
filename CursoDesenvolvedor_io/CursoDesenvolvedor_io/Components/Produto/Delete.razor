@@ -1,6 +1,8 @@
-@page "/produtos/delete"
+@page "/produtos/deletar/{id:int}"
+
 @using Microsoft.EntityFrameworkCore
 @using CursoDesenvolvedor_io.Components.Produto
+
 @inject IDbContextFactory<CursoDesenvolvedor_io.Data.ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
 
@@ -51,8 +53,8 @@
 @code {
     private Produto? produto;
 
-    [SupplyParameterFromQuery]
-    private int ID { get; set; }
+    [Parameter]
+    public int ID { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
